@@ -1,0 +1,6 @@
+Matrix.class
+IMatrix.class
+MatrixService.class
+MatrixDeterminantComparator.class
+DiagMatrix.class
+UpTriangleMatrix.class
