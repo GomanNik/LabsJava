@@ -38,4 +38,46 @@ public class ReflectionDemo {
         }
         return superClassNames;
     }
+    public static int executeExecutableObjects(List<Object> objects) {
+        int count = 0;
+        for (Object obj : objects) {
+            if (obj instanceof Executable) {
+                ((Executable) obj).execute();
+                count++;
+            }
+        }
+        return count;
+
+    }
+    public static List<String> getGettersAndSetters(Object obj) {
+        List<String> gettersAndSetters = new ArrayList<>();
+        Method[] methods = obj.getClass().getMethods();
+
+        for (Method method : methods) {
+            String methodName = method.getName();
+            if (isGetter(method)) {
+                gettersAndSetters.add(methodName);
+            } else if (isSetter(method)) {
+                gettersAndSetters.add(methodName);
+            }
+        }
+
+        return gettersAndSetters;
+    }
+
+    private static boolean isGetter(Method method) {
+        String methodName = method.getName();
+        return  methodName.startsWith("get") &&
+                methodName.length() > 3 &&
+                method.getParameterCount() == 0
+                && method.getReturnType() != void.class;
+    }
+
+    private static boolean isSetter(Method method) {
+        String methodName = method.getName();
+        return  methodName.startsWith("set") &&
+                methodName.length() > 3 &&
+                method.getParameterCount() == 1 &&
+                method.getReturnType() == void.class;
+    }
 }

@@ -52,27 +52,12 @@ class ReflectionDemoTest {
         List<String> actual = ReflectionDemo.getPublicMethodNames(
                 new Human("Иванов","Иван","Иванович",30));
         List<String> expected = Arrays.asList(
-                "equals", "hashCode", "getLastName", "getFirstName", "getSurname", "setAge", "setLastName", "setSurname", "setFirstName", "getAge", "toString", "getClass", "notify", "notifyAll", "wait", "wait", "wait");
+                "equals","execute", "hashCode", "getLastName", "getFirstName", "getSurname", "setAge", "setLastName", "setSurname", "setFirstName", "getAge", "toString", "getClass", "notify", "notifyAll", "wait", "wait", "wait");
         Collections.sort(expected);
         Collections.sort(actual);
         assertEquals(expected,actual);
     }
-    @Test
-    void getPublicMethodNamesSecond() {
-        Iterator<Integer> iterator = new Iterator<Integer>() {
-            @Override
-            public boolean hasNext() {
-                return false;
-            }
 
-            @Override
-            public Integer next() {
-                return null;
-            }
-        };
-        List<String> actual = ReflectionDemo.getPublicMethodNames(iterator);
-        for (String str: actual) System.out.println();
-    }
     @Test
     public void testGetPublicMethodNamesNullObject() {
         assertThrows(NullPointerException.class,()->ReflectionDemo.getPublicMethodNames(null));
@@ -97,5 +82,31 @@ class ReflectionDemoTest {
     @Test
     void getSuperClassNamesWithNull() {
         assertThrows(NullPointerException.class,()-> ReflectionDemo.getSuperClassNames(null));
+    }
+    @Test
+    void executeExecutableObjectsTestFirst(){
+        List<Object> objects = new ArrayList<>();
+        objects.add(new Human("Иванов","Иван","Иванович",30));
+        objects.add(new Worker("Работников","Дмитрий","Дмитриевич",22,"Програмист Питоняша"));
+        objects.add(new Student("Колесников","Денис","Борисович",17,"Филология"));
+        assertEquals(3,ReflectionDemo.executeExecutableObjects(objects));
+    }
+    @Test
+    void executeExecutableObjectsTestSecond(){
+        List<Object> objects = new ArrayList<>();
+        objects.add("Тестовая строка");
+        objects.add(3);
+        objects.add(new Human("Иванов","Иван","Иванович",30));
+        assertEquals(1,ReflectionDemo.executeExecutableObjects(objects));
+    }
+    @Test
+    void executeExecutableObjectsTestThird(){
+        List<Object> objects = new ArrayList<>();
+        objects.add("Human");
+        objects.add("Human");
+        objects.add("Human");
+        objects.add('r');
+        objects.add(1.111111);
+        assertEquals(0,ReflectionDemo.executeExecutableObjects(objects));
     }
 }

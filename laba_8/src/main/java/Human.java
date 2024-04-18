@@ -1,6 +1,6 @@
 import java.util.Objects;
 
-public class Human {
+public class Human implements Executable{
     private String lastName;
     private String firstName;
     private String surname;
@@ -67,7 +67,10 @@ public class Human {
         }
         this.age = age;
     }
-
+    @Override
+    public void execute(){
+        System.out.println("Метод успешно выполнен");
+    }
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
