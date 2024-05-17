@@ -6,6 +6,7 @@ public class Human {
     private String surname;
     private int age;
 
+    public Human(){}
     public Human(String lastName, String firstName, String surname, int age) {
         if (lastName.isEmpty() || firstName.isEmpty() || surname.isEmpty()) {
             throw new IllegalArgumentException("Некоретное ФИО");

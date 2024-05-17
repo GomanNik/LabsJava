@@ -160,6 +160,22 @@ class CollectionsDemoTest {
 
         assertEquals(result,CollectionsDemo.getAgeToPeopleMap(humans));
     }
+    @Test
+    public void getAlphabeticalList(){
+        Set<Human> humans = new LinkedHashSet<>();
+        humans.add(new Human("Пушкин","Александр","Сергеевич",38));
+        humans.add(new Human("Толстой","Лев","Николаевич",40));
+        humans.add(new Human("Иванов","Михаил","Юрьевич",28));
+        humans.add(new Human("Петров","Михаил","Юрьевич",28));
+
+        List<Human> expected = Arrays.asList(
+                        new Human("Иванов","Михаил","Юрьевич",28),
+                        new Human("Петров","Михаил","Юрьевич",28),
+                        new Human("Пушкин","Александр","Сергеевич",38),
+                        new Human("Толстой","Лев","Николаевич",40));
+
+        assertEquals(expected,CollectionsDemo.getAlphabeticalList(humans));
+    }
 
     @Test
     public void getIdToAgeMapWithNegativeTest() {
@@ -169,6 +185,69 @@ class CollectionsDemoTest {
     @Test
     public void getAgeToPeopleMapWithNegativeTest() {
         assertThrows(NullPointerException.class, () -> CollectionsDemo.getAgeToPeopleMap(null));
+    }
+
+    @Test
+    public void getAgeToAlphabeticalPeopleMapTestFirst() {
+        Human personFirst = new Human("Пушкин","Александр","Сергеевич",38);
+        Human personSecond = new Human("Толстой","Лев","Николаевич",40);
+        Human personThird = new Human("Лермонтов  ","Михаил","Юрьевич",28);
+        Set<Human> humanSet = new HashSet<>();
+        humanSet.add(personFirst);
+        humanSet.add(personSecond);
+        humanSet.add(personThird);
+
+        Map<Integer, Map<Character, List<Human>>> result = CollectionsDemo.getAgeToAlphabeticalPeopleMap(humanSet);
+        Map<Integer, Map<Character, List<Human>>> expected =new LinkedHashMap<>();
+        expected.put(38, new LinkedHashMap<>());
+        expected.get(38).put('П', new ArrayList<>());
+        expected.get(38).get('П').add(personFirst);
+
+        expected.put(40, new LinkedHashMap<>());
+        expected.get(40).put('Т', new ArrayList<>());
+        expected.get(40).get('Т').add(personSecond);
+
+        expected.put(28, new LinkedHashMap<>());
+        expected.get(28).put('Л', new ArrayList<>());
+        expected.get(28).get('Л').add(personThird);
+        for (Map<Character, List<Human>> letterToPeople : expected.values()) {
+            for (List<Human> people : letterToPeople.values()) {
+                people.sort(new ComparatorPeoples().reversed());
+            }
+        }
+
+        assertEquals(expected, result);
+    }
+    @Test
+    public void getAgeToAlphabeticalPeopleMapTestWithEmptySetException() {
+        assertThrows(NullPointerException.class, () -> CollectionsDemo.getAgeToAlphabeticalPeopleMap(null));
+    }
+
+    @Test
+    public void getAgeToAlphabeticalPeopleMapTest() {
+        Human personFirst = new Human("Пушкин","Александр","Сергеевич",37);
+        Human personSecond = new Student("Партос","Мушкетёр","Мушкетёрович",37,"Факультет Реконструкции");
+        //37- летний студент Партос, ну и что!)
+        Human personThird = new Human("Пелагея   ","Сергеевна ","Телегина",37);
+        Set<Human> humanSet = new HashSet<>();
+        humanSet.add(personFirst);
+        humanSet.add(personSecond);
+        humanSet.add(personThird);
+
+        Map<Integer, Map<Character, List<Human>>> result = CollectionsDemo.getAgeToAlphabeticalPeopleMap(humanSet);
+        Map<Integer, Map<Character, List<Human>>> expected =new LinkedHashMap<>();
+        expected.put(37, new LinkedHashMap<>());
+        expected.get(37).put('П', new ArrayList<>());
+
+        expected.get(37).get('П').add(personFirst);
+        expected.get(37).get('П').add(personSecond);
+        expected.get(37).get('П').add(personThird);
+
+        for (List<Human> people : expected.get(37).values()) {
+            people.sort(new ComparatorPeoples().reversed());
+        }
+
+        assertEquals(expected, result);
     }
 }
 

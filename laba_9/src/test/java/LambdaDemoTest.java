@@ -5,61 +5,110 @@ import java.util.function.Function;
 
 public class LambdaDemoTest {
 
+
     @Test
     public void testGetLength() {
-        assertEquals(5, LambdaDemo.getLength.apply("Hello"));
+        assertEquals(5, LambdaRunner.runLambda1(LambdaDemo.getLength,"Hello"));
     }
-
+    @Test
+    public void testGetLength_negative() {
+        assertNotEquals(4, LambdaRunner.runLambda1(LambdaDemo.getLength, "Test String"));
+    }
     @Test
     public void testGetFirstChar() {
-        assertEquals(Character.valueOf('H'), LambdaDemo.getFirstChar.apply("Hello"));
+        assertEquals('H', LambdaRunner.runLambda1(LambdaDemo.getFirstChar,"Hello"));
     }
-
+    @Test
+    public void testGetFirstChar_negative() {
+        assertNotEquals('A', LambdaRunner.runLambda1(LambdaDemo.getFirstChar, "Hello"));
+    }
     @Test
     public void testContainsNoSpaces() {
-        assertTrue(LambdaDemo.containsNoSpaces.apply("NoSpaces"));
-        assertFalse(LambdaDemo.containsNoSpaces.apply("Contains Spaces"));
+        assertTrue(LambdaRunner.runLambda1(LambdaDemo.containsNoSpaces,"NoSpaces"));
+    }
+    @Test
+    public void testContainsNoSpaces_negative() {
+        assertFalse(LambdaRunner.runLambda1(LambdaDemo.containsNoSpaces,"Contains Spaces"));
     }
 
     @Test
     public void testCountWords() {
-        assertEquals(3, LambdaDemo.countWords.apply("One,Two,Three"));
+        assertEquals(3, LambdaRunner.runLambda1(LambdaDemo.countWords,"1,2,3"));
+
+        assertEquals(2, LambdaRunner.runLambda1(LambdaDemo.countWords,"OneWord,  SecondWord"));
+    }
+    @Test
+    public void testCountWords_negative() {
+        assertNotEquals(5, LambdaRunner.runLambda1(LambdaDemo.countWords,"1,2,3"));
     }
 
     @Test
     public void testGetAge() {
-
         Human human = new Human("John", "Doe", "Smith", 30, Gender.MALE);
-        assertEquals(30, LambdaDemo.getAge.apply(human));
+        assertEquals(30,LambdaRunner.runLambda1(LambdaDemo.getAge,human));
+    }
+    @Test
+    public void testGetAge_negative() {
+        Human human = new Human("Виктор", "Пелевин", "Олегович", 61, Gender.MALE);
+        assertNotEquals(30,LambdaRunner.runLambda1(LambdaDemo.getAge,human));
     }
 
     @Test
     public void testHasSameLastName() {
-        Human human = new Human("Jane", "Doe", "Smith", 25, Gender.FEMALE);
-        assertTrue(LambdaDemo.hasSameLastName.apply(human));
+        Human humanFirst = new Human("Иванов","Иван","Иванович", 15, Gender.MALE);
+        Human humanSecond = new Human("Иванов", "Петр", "Иванович", 13, Gender.MALE);
+
+        assertTrue(LambdaRunner.runLambda2(LambdaDemo.checkSameLastName,humanFirst,humanSecond));
     }
 
     @Test
-    public void testGetFullName() {
-        Human human = new Human("Alice", "Wonderland", "", 40, Gender.FEMALE);
-        assertEquals("Wonderland Alice ", LambdaDemo.getFullName.apply(human));
+    public void testHasSameLastName_negative() {
+        Human humanFirst = new Human("Иванов","Иван","Иванович", 15, Gender.MALE);
+        Human humanSecond = new Human("Смирнова", "Алина", "Михайловна", 20, Gender.FEMALE);
+
+        assertFalse(LambdaRunner.runLambda2(LambdaDemo.checkSameLastName,humanFirst,humanSecond));
     }
 
     @Test
-    public void testMakeOneYearOlder() {
+    public void testFirstGetFullName() {
+        Human human = new Human("Вундерланд", "Алина", "", 20, Gender.FEMALE);
+
+        assertEquals("Вундерланд Алина ",LambdaRunner.runLambda1(LambdaDemo.getFullName,human));
+    }
+    @Test
+    public void testSecondGetFullName() {
+        Human humanFirst = new Human("Иванов","Иван","Иванович", 15, Gender.MALE);
+
+        assertEquals("Иванов Иван Иванович",LambdaRunner.runLambda1(LambdaDemo.getFullName,humanFirst));
+    }
+
+    @Test
+    public void testFirstMakeOneYearOlder() {
         Human human = new Human("Bob", "Smith", "", 50, Gender.MALE);
-        Human olderHuman = LambdaDemo.makeOneYearOlder.apply(human);
-        assertEquals(human.getAge() + 1, olderHuman.getAge());
+
+        assertEquals(51,LambdaRunner.runLambda1(LambdaDemo.makeOneYearOlder,human).getAge());
+    }
+
+    @Test
+    public void testSecondMakeOneYearOlder() {
+        Human humanFirst = new Human("Иванов","Иван","Иванович", 15, Gender.MALE);
+
+        assertEquals(16,LambdaRunner.runLambda1(LambdaDemo.makeOneYearOlder,humanFirst).getAge());
     }
 
     @Test
     public void testCheckIfAllYoungerThan() {
-        Function<Human, Function<Human, Function<Human, Boolean>>> checkFunction = LambdaDemo.checkIfAllYoungerThan.apply(40);
-
-        Human h1 = new Human("Alice", "Johnson", "", 35, Gender.FEMALE);
-        Human h2 = new Human("John", "Smith", "", 30, Gender.MALE);
-        Human h3 = new Human("Emily", "Brown", "", 45, Gender.FEMALE);
-
-        assertTrue(checkFunction.apply(h1).apply(h2).apply(h3));
+        Human[] humans = new Human[3];
+        humans[0] = new Human("Иванов","Иван","Иванович", 15, Gender.MALE);
+        humans[1] = new Human("Смирнова", "Алина", "Михайловна", 20, Gender.FEMALE);
+        humans[2] = new Human("Виктор", "Пелевин", "Олегович", 30, Gender.MALE);
+        assertTrue(LambdaRunner.runLambda2(LambdaDemo.checkIfAllYoungerThan,40,humans));
+    }
+    @Test
+    public void testCheckIfAllYoungerThan_negative() {
+        Human[] humans = new Human[2];
+        humans[0] = new Human("Иванов","Иван","Иванович", 15, Gender.MALE);
+        humans[1] = new Human("Смирнова", "Алина", "Михайловна", 20, Gender.FEMALE);
+        assertFalse(LambdaRunner.runLambda2(LambdaDemo.checkIfAllYoungerThan,40,humans));
     }
 }
