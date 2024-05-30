@@ -9,7 +9,7 @@ public class StreamApiDemoTest {
         List<Object> listWithNulls = Arrays.asList(1, null, 3, null, 5);
         List<Object> listWithoutNulls = Arrays.asList(1, 3, 5);
 
-        assertEquals(listWithoutNulls, LambdaRunner.runLambda1(StreamApiDemo.removeNulls, listWithNulls));
+        assertEquals(listWithoutNulls, LambdaRunner.runUnaryOperator(StreamApiDemo.removeNulls, listWithNulls));
 
     }
     @Test
@@ -17,7 +17,7 @@ public class StreamApiDemoTest {
         List<Object> listWithNulls = Arrays.asList(null, null, null);
         List<Object> listWithoutNulls = Collections.emptyList();
 
-        assertEquals(listWithoutNulls, LambdaRunner.runLambda1(StreamApiDemo.removeNulls, listWithNulls));
+        assertEquals(listWithoutNulls, LambdaRunner.runUnaryOperator(StreamApiDemo.removeNulls, listWithNulls));
     }
 
     @Test
@@ -27,7 +27,7 @@ public class StreamApiDemoTest {
         numbers.add(2);
         numbers.add(3);
 
-        assertEquals(2, LambdaRunner.runLambda1(StreamApiDemo.countPositiveIntegers, numbers));
+        assertEquals(2, LambdaRunner.runFunction(StreamApiDemo.countPositiveIntegers, numbers));
     }
     @Test
     public void testCountPositiveIntegers_negative(){
@@ -36,7 +36,7 @@ public class StreamApiDemoTest {
         numbers.add(-2);
         numbers.add(-3);
 
-        assertEquals(0, LambdaRunner.runLambda1(StreamApiDemo.countPositiveIntegers, numbers));
+        assertEquals(0, LambdaRunner.runFunction(StreamApiDemo.countPositiveIntegers, numbers));
     }
 
     @Test
@@ -44,7 +44,7 @@ public class StreamApiDemoTest {
         List<Object> numbers = Arrays.asList(1, 2, 3, 4, 5);
         List<Object> lastThree = Arrays.asList(3, 4, 5);
 
-        assertEquals(lastThree, LambdaRunner.runLambda1(StreamApiDemo.getLastThreeElements, numbers));
+        assertEquals(lastThree, LambdaRunner.runUnaryOperator(StreamApiDemo.getLastThreeElements, numbers));
     }
     @Test
     public void testGetThreeLastElements_negative(){
@@ -53,35 +53,35 @@ public class StreamApiDemoTest {
         List<Object> numbers = Arrays.asList("белка",2,human,false);
         List<Object> lastThree = Arrays.asList(2,human,false);
 
-        assertEquals(lastThree, LambdaRunner.runLambda1(StreamApiDemo.getLastThreeElements, numbers));
+        assertEquals(lastThree, LambdaRunner.runUnaryOperator(StreamApiDemo.getLastThreeElements, numbers));
     }
 
     @Test
     public void testGetFirstEvenOrNull() {
         List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5, 6);
 
-        assertEquals(2, LambdaRunner.runLambda1(StreamApiDemo.getFirstEvenOrNull, numbers));
+        assertEquals(2, LambdaRunner.runFunction(StreamApiDemo.getFirstEvenOrNull, numbers));
 
     }
     @Test
     public void testGetFirstEvenOrNull_negative(){
         List<Integer> numbers = Arrays.asList(7, 9, 11);
 
-        assertNull(LambdaRunner.runLambda1(StreamApiDemo.getFirstEvenOrNull, numbers));
+        assertNull(LambdaRunner.runFunction(StreamApiDemo.getFirstEvenOrNull, numbers));
     }
     @Test
     public void testGetSquaresWithoutDuplicatesFirst() {
         int[] array = {1, 2, 2, 3};
         List<Integer> expected = Arrays.asList(1, 4, 9);
 
-        assertEquals(expected, LambdaRunner.runLambda1(StreamApiDemo.getSquaresWithoutDuplicates, array));
+        assertEquals(expected, LambdaRunner.runFunction(StreamApiDemo.getSquaresWithoutDuplicates, array));
     }
     @Test
     public void testGetSquaresWithoutDuplicatesSecond(){
         int[] array = new int[]{-1, 0, 1, 1};
         List<Integer> expected = Arrays.asList(1,0);
 
-        assertEquals(expected, LambdaRunner.runLambda1(StreamApiDemo.getSquaresWithoutDuplicates, array));
+        assertEquals(expected, LambdaRunner.runFunction(StreamApiDemo.getSquaresWithoutDuplicates, array));
     }
 
     @Test
@@ -89,7 +89,7 @@ public class StreamApiDemoTest {
         List<String> list = Arrays.asList("apple", "", "carrot", "banana", "");
         List<String> expected = Arrays.asList("apple", "banana", "carrot");
 
-        assertEquals(expected, LambdaRunner.runLambda1(StreamApiDemo.getSortedNonEmptyStrings, list));
+        assertEquals(expected, LambdaRunner.runUnaryOperator(StreamApiDemo.getSortedNonEmptyStrings, list));
 
 
     }
@@ -98,7 +98,7 @@ public class StreamApiDemoTest {
         List<String> list = Arrays.asList("", "", "");
         List<String> expected = Collections.emptyList();
 
-        assertEquals(expected, LambdaRunner.runLambda1(StreamApiDemo.getSortedNonEmptyStrings, list));
+        assertEquals(expected, LambdaRunner.runUnaryOperator(StreamApiDemo.getSortedNonEmptyStrings, list));
     }
 
     @Test
@@ -110,7 +110,7 @@ public class StreamApiDemoTest {
 
         List<String> expected = Arrays.asList("carrot", "banana", "apple");
 
-        assertEquals(expected, LambdaRunner.runLambda1(StreamApiDemo.sortedSetDescending, set));
+        assertEquals(expected, LambdaRunner.runFunction(StreamApiDemo.sortedSetDescending, set));
     }
     @Test
     public void testSortedSetDescending_negative(){
@@ -121,7 +121,7 @@ public class StreamApiDemoTest {
 
         List<String> expected = Arrays.asList("c", "b", "a");
 
-        assertEquals(expected, LambdaRunner.runLambda1(StreamApiDemo.sortedSetDescending, set));
+        assertEquals(expected, LambdaRunner.runFunction(StreamApiDemo.sortedSetDescending, set));
     }
 
     @Test
@@ -132,7 +132,7 @@ public class StreamApiDemoTest {
         set.add(3);
         Integer expected = 14; // 1^2 + 2^2 + 3^2 = 1 + 4 + 9 = 14
 
-        assertEquals(expected, LambdaRunner.runLambda1(StreamApiDemo.sumOfSquaredIntegers, set));
+        assertEquals(expected, LambdaRunner.runFunction(StreamApiDemo.sumOfSquaredIntegers, set));
     }
     @Test
     public void testSumOfSquaredIntegers_negative() {
@@ -141,7 +141,7 @@ public class StreamApiDemoTest {
         set.add(-2);
         set.add(-3);
         Integer expected = 14; // (-1)^2 + (-2)^2 + (-3)^2 = 1 + 4 + 9 = 14
-        assertEquals(expected, LambdaRunner.runLambda1(StreamApiDemo.sumOfSquaredIntegers, set));
+        assertEquals(expected, LambdaRunner.runFunction(StreamApiDemo.sumOfSquaredIntegers, set));
     }
     @Test
     public void testMaxAgeOfPersons() {
@@ -150,7 +150,7 @@ public class StreamApiDemoTest {
                 new Human("Сидоров", "Сидор", "Сидорович", 25, Gender.MALE),
                 new Student("Студентов", "Студент", "Студентович", 20, Gender.MALE,"University","Faculty","Specialty"));
 
-        assertEquals(45, LambdaRunner.runLambda1(StreamApiDemo.maxAgeOfPersons, persons));
+        assertEquals(45, LambdaRunner.runFunction(StreamApiDemo.maxAgeOfPersons, persons));
     }
     @Test
     public void testMaxAgeOfPerson() {
@@ -158,7 +158,7 @@ public class StreamApiDemoTest {
                 new Human("Евгеньева", "Евгения", "Евгеньевна", 29, Gender.FEMALE),
                 new Student("Студентов", "Студент", "Студентович", 20, Gender.MALE,"University","Faculty","Specialty"));
 
-        assertEquals(29, LambdaRunner.runLambda1(StreamApiDemo.maxAgeOfPersons, persons));
+        assertEquals(29, LambdaRunner.runFunction(StreamApiDemo.maxAgeOfPersons, persons));
     }
 
     @Test
@@ -176,7 +176,7 @@ public class StreamApiDemoTest {
                 new Human("Евгеньева", "Евгения", "Евгеньевна", 29, Gender.FEMALE),
                 new Human("Иванова", "Алиса", "Ивановна", 30, Gender.FEMALE));
 
-        assertEquals(expectedSorted, LambdaRunner.runLambda1(StreamApiDemo.sortPersonsByGenderAndAge, persons));
+        assertEquals(expectedSorted, LambdaRunner.runUnaryOperator(StreamApiDemo.sortPersonsByGenderAndAge, persons));
     }
     @Test
     public void testSortPersonsByGenderAndAgeSecond()
@@ -190,7 +190,7 @@ public class StreamApiDemoTest {
                 new Human("Франков", "Франк", "Франкович", 29, Gender.MALE),
                 new Human("Евгеньева", "Евгения", "Евгеньевна", 29, Gender.FEMALE));
 
-        assertEquals(expectedSorted, LambdaRunner.runLambda1(StreamApiDemo.sortPersonsByGenderAndAge, persons));
+        assertEquals(expectedSorted, LambdaRunner.runUnaryOperator(StreamApiDemo.sortPersonsByGenderAndAge, persons));
     }
 
 }
