@@ -162,7 +162,7 @@ class CollectionsDemoTest {
     }
     @Test
     public void getAlphabeticalList(){
-        Set<Human> humans = new LinkedHashSet<>();
+        TreeSet<Human> humans = new TreeSet<>();
         humans.add(new Human("Пушкин","Александр","Сергеевич",38));
         humans.add(new Human("Толстой","Лев","Николаевич",40));
         humans.add(new Human("Иванов","Михаил","Юрьевич",28));
@@ -173,6 +173,22 @@ class CollectionsDemoTest {
                         new Human("Петров","Михаил","Юрьевич",28),
                         new Human("Пушкин","Александр","Сергеевич",38),
                         new Human("Толстой","Лев","Николаевич",40));
+
+        assertEquals(expected,CollectionsDemo.getAlphabeticalList(humans));
+    }
+    @Test
+    public void getAlphabeticalListSecond(){
+        HashSet<Human> humans = new HashSet<>();
+        humans.add(new Human("Абвгдеёж","Михаил","Юрьевич",28));
+        humans.add(new Human("Абвгдеёж","Анастасия","Алексеевна",28));
+        humans.add(new Student("Абвгдеёж","Александр","Юрьевич",28,"faculty"));
+        humans.add(new Human("Абвгдеёж","Михаил","Дмитриевич",28));
+
+        List<? extends Human> expected = Arrays.asList(
+                new Student("Абвгдеёж","Александр","Юрьевич",28,"faculty"),
+                new Human("Абвгдеёж","Анастасия","Алексеевна",28),
+                new Human("Абвгдеёж","Михаил","Дмитриевич",28),
+                new Human("Абвгдеёж","Михаил","Юрьевич",28));
 
         assertEquals(expected,CollectionsDemo.getAlphabeticalList(humans));
     }
@@ -192,16 +208,19 @@ class CollectionsDemoTest {
         Human personFirst = new Human("Пушкин","Александр","Сергеевич",38);
         Human personSecond = new Human("Толстой","Лев","Николаевич",40);
         Human personThird = new Human("Лермонтов  ","Михаил","Юрьевич",28);
+        Student student = new Student("Пушкин","Антон","Константинович",38,"SPO");
         Set<Human> humanSet = new HashSet<>();
         humanSet.add(personFirst);
         humanSet.add(personSecond);
         humanSet.add(personThird);
+        humanSet.add(student);
 
         Map<Integer, Map<Character, List<Human>>> result = CollectionsDemo.getAgeToAlphabeticalPeopleMap(humanSet);
         Map<Integer, Map<Character, List<Human>>> expected =new LinkedHashMap<>();
         expected.put(38, new LinkedHashMap<>());
         expected.get(38).put('П', new ArrayList<>());
         expected.get(38).get('П').add(personFirst);
+        expected.get(38).get('П').add(student);
 
         expected.put(40, new LinkedHashMap<>());
         expected.get(40).put('Т', new ArrayList<>());
@@ -229,25 +248,35 @@ class CollectionsDemoTest {
         Human personSecond = new Student("Партос","Мушкетёр","Мушкетёрович",37,"Факультет Реконструкции");
         //37- летний студент Партос, ну и что!)
         Human personThird = new Human("Пелагея   ","Сергеевна ","Телегина",37);
+        Student student = new Student("Емельянов","Антон","Константинович",37,"SPO");
+
         Set<Human> humanSet = new HashSet<>();
         humanSet.add(personFirst);
         humanSet.add(personSecond);
         humanSet.add(personThird);
+        humanSet.add(student);
 
         Map<Integer, Map<Character, List<Human>>> result = CollectionsDemo.getAgeToAlphabeticalPeopleMap(humanSet);
-        Map<Integer, Map<Character, List<Human>>> expected =new LinkedHashMap<>();
-        expected.put(37, new LinkedHashMap<>());
+
+        Map<Integer, Map<Character, List<Human>>> expected = new HashMap<>();
+        expected.put(37, new HashMap<>());
         expected.get(37).put('П', new ArrayList<>());
+        expected.get(37).put('Е',new ArrayList<>());
+
 
         expected.get(37).get('П').add(personFirst);
         expected.get(37).get('П').add(personSecond);
         expected.get(37).get('П').add(personThird);
+
+        expected.get(37).get('Е').add(student);
 
         for (List<Human> people : expected.get(37).values()) {
             people.sort(new ComparatorPeoples().reversed());
         }
 
         assertEquals(expected, result);
+
+
     }
 }
 

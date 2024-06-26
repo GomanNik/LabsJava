@@ -1,7 +1,11 @@
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.io.*;
 import java.util.List;
 import java.util.Objects;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 class Flat implements Serializable {
     private int number;
     private double area;
@@ -16,7 +20,7 @@ class Flat implements Serializable {
         this.area = area;
         this.owners = owners;
     }
-
+    @JsonProperty("number")
     public int getNumber() {
         return number;
     }
@@ -25,6 +29,7 @@ class Flat implements Serializable {
         this.number = number;
     }
 
+    @JsonProperty("area")
     public double getArea() {
         return area;
     }
@@ -33,6 +38,7 @@ class Flat implements Serializable {
         this.area = area;
     }
 
+    @JsonProperty("owners")
     public List<Person> getOwners() {
         return owners;
     }

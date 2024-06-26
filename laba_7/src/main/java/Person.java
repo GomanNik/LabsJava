@@ -1,4 +1,6 @@
-import java.io.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.time.LocalDate;
 import java.util.Objects;
 
 class Person  {
@@ -7,6 +9,8 @@ class Person  {
     private String surName;
     private String dateOfBirth;
 
+
+    public Person(String самый, String главный, String управдом, LocalDate parse){}
     public Person(String firstName, String lastName, String surName, String dateOfBirth) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -36,13 +40,17 @@ class Person  {
     public void setSurName(String surName) {
         this.surName = surName;
     }
+
+    @JsonProperty("fullName")
     public String getFullName() {
         return (this.firstName + " " + lastName + " " + surName);
     }
+
     public String getFio(){
         return (this.firstName +" "+ lastName.charAt(0) + "." + surName.charAt(0));
     }
 
+    @JsonProperty("dateOfBirth")
     public String getDateOfBirth() {
         return dateOfBirth;
     }

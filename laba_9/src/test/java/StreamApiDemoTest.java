@@ -15,7 +15,7 @@ public class StreamApiDemoTest {
     @Test
     public void testRemoveNullsElem() {
         List<Object> listWithNulls = Arrays.asList(null, null, null);
-        List<Object> listWithoutNulls = Collections.emptyList();
+        List<Object> listWithoutNulls = new ArrayList<>();
 
         assertEquals(listWithoutNulls, LambdaRunner.runUnaryOperator(StreamApiDemo.removeNulls, listWithNulls));
     }
@@ -43,6 +43,13 @@ public class StreamApiDemoTest {
     public void testGetLastThreeElements() {
         List<Object> numbers = Arrays.asList(1, 2, 3, 4, 5);
         List<Object> lastThree = Arrays.asList(3, 4, 5);
+
+        assertEquals(lastThree, LambdaRunner.runUnaryOperator(StreamApiDemo.getLastThreeElements, numbers));
+    }
+    @Test
+    public void testGetLastThreeElementsSecond() {
+        List<Object> numbers = Arrays.asList(1, 2);
+        List<Object> lastThree = Arrays.asList(1,2);
 
         assertEquals(lastThree, LambdaRunner.runUnaryOperator(StreamApiDemo.getLastThreeElements, numbers));
     }

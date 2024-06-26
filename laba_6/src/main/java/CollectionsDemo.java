@@ -108,27 +108,23 @@ public class CollectionsDemo {
         return result;
     }
     public static List<? extends Human> getAlphabeticalList(Set<? extends Human> peoples) {
-        if (peoples.isEmpty()) {
-            throw new NullPointerException("peoples не может быть пустым!");
-        }
-        List<? extends Human> sortedList = new ArrayList<>(peoples);
-        ComparatorPeoples comparatorPeoples = new ComparatorPeoples();
-        sortedList.sort(comparatorPeoples);
-        return sortedList;
+
+        TreeSet<Human> treeSet = new TreeSet<>(new ComparatorPeoples());
+
+        treeSet.addAll(peoples);
+
+        return new ArrayList<>(treeSet);
     }
     public static Map<Integer, Map<Character, List<Human>>> getAgeToAlphabeticalPeopleMap(Set<Human> humanSet) {
-        if (humanSet.isEmpty()) {
-            throw new NullPointerException("humanSet не может быть пустым!");
-        }
 
-        Map<Integer, Map<Character, List<Human>>> result = new LinkedHashMap<>();
+        Map<Integer, Map<Character, List<Human>>> result = new HashMap<>();
 
         for (Human human : humanSet) {
             int age = human.getAge();
             char firstLetter = human.getLastName().charAt(0);
 
             if (!result.containsKey(age)) {
-                result.put(age, new LinkedHashMap<>());
+                result.put(age, new HashMap<>());
             }
 
             Map<Character, List<Human>> letterToPeople = result.get(age);

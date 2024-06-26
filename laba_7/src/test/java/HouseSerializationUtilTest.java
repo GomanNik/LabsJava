@@ -53,4 +53,17 @@ class HouseSerializationUtilTest {
     void deserializeHouseWithNegativeTest()  {
         assertThrows(NullPointerException.class,()-> HouseSerializationUtil.deserializeHouse(null));
     }
+    @Test
+    void saveHouseToFileTest(){
+        List<Person> owner = Arrays.asList(new Person("Владеющий","Домом","Владелец","1992-03-17"),
+                new Person("Владеющий2","Домом2","Владелец2","1992-03-17"));
+
+        List<Flat> flats = new ArrayList<>();
+        flats.add(new Flat(1,45, owner));
+        flats.add(new Flat(2,90, owner));
+
+        House houseTest = new House("31.1.1.3","Омская обл, Омский р-он, с.Селянское, ул.Единственная,д. 2",
+                new Person("Самый","Главный","Управдом","2000-01-20"),flats );
+        HouseSerializationUtil.saveHouseToFile(houseTest);
+    }
 }

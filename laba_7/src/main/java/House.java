@@ -1,7 +1,10 @@
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.*;
 import java.util.List;
 import java.util.Objects;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 class House implements Serializable {
     private String cadastralNumber;
     private String address;
@@ -20,6 +23,7 @@ class House implements Serializable {
         this.flats = flats;
     }
 
+    @JsonProperty("cadastralNumber")
     public String getCadastralNumber() {
         return cadastralNumber;
     }
@@ -28,6 +32,7 @@ class House implements Serializable {
         this.cadastralNumber = cadastralNumber;
     }
 
+    @JsonProperty("address")
     public String getAddress() {
         return address;
     }
@@ -36,6 +41,7 @@ class House implements Serializable {
         this.address = address;
     }
 
+    @JsonProperty("elder")
     public Person getElder() {
         return elder;
     }
@@ -44,6 +50,7 @@ class House implements Serializable {
         this.elder = elder;
     }
 
+    @JsonProperty("flats")
     public List<Flat> getFlats() {
         return flats;
     }

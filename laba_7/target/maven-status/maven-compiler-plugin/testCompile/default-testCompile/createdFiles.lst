@@ -1,0 +1,10 @@
+BinaryStreamExampleTest.class
+CharacterStreamExampleTest.class
+JsonComparatorTest.class
+RandomAccessFileExampleTest.class
+HouseSerializationModuleTest.class
+HouseSerializationServiceTest.class
+HouseSerializationUtilTest.class
+FlatSerializationModuleTest.class
+PersonSerializationModuleTest.class
+GetFilesWithExtensionTest.class

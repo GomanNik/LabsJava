@@ -3,7 +3,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class LambdaDemoTest {
 
-
     @Test
     public void testGetLength() {
         assertEquals(5, LambdaRunner.runFunction(LambdaDemo.getLength,"Hello"));
@@ -18,7 +17,7 @@ public class LambdaDemoTest {
     }
     @Test
     public void testGetFirstChar_negative() {
-        assertNotEquals('A', LambdaRunner.runFunction(LambdaDemo.getFirstChar, "Hello"));
+        assertEquals('4', LambdaRunner.runFunction(LambdaDemo.getFirstChar, "4Hello"));
     }
     @Test
     public void testContainsNoSpaces() {
@@ -26,7 +25,7 @@ public class LambdaDemoTest {
     }
     @Test
     public void testContainsNoSpaces_negative() {
-        assertFalse(LambdaRunner.runPredicate(LambdaDemo.containsNoSpaces,"Contains Spaces"));
+        assertFalse(LambdaRunner.runPredicate(LambdaDemo.containsNoSpaces,"ContainsSpaces "));
     }
 
     @Test
@@ -34,6 +33,14 @@ public class LambdaDemoTest {
         assertEquals(3, LambdaRunner.runFunction(LambdaDemo.countWords,"1,2,3"));
 
         assertEquals(2, LambdaRunner.runFunction(LambdaDemo.countWords,"OneWord,  SecondWord"));
+    }
+    @Test
+    public void testCountWordsWithEmptyString() {
+        assertEquals(0, LambdaRunner.runFunction(LambdaDemo.countWords, ""));
+    }
+    @Test
+    public void testCountWordsSecond() {
+        assertEquals(1, LambdaRunner.runFunction(LambdaDemo.countWords, " 1 1 1"));
     }
     @Test
     public void testCountWords_negative() {
@@ -75,7 +82,7 @@ public class LambdaDemoTest {
     }
     @Test
     public void testSecondGetFullName() {
-        Human humanFirst = new Human("Иванов","Иван","Иванович", 15, Gender.MALE);
+        Student humanFirst = new Student("Иванов","Иван","Иванович", 15, Gender.MALE,"university","faculty","specialty");
 
         assertEquals("Иванов Иван Иванович",LambdaRunner.runFunction(LambdaDemo.getFullName,humanFirst));
     }
@@ -89,7 +96,7 @@ public class LambdaDemoTest {
 
     @Test
     public void testSecondMakeOneYearOlder() {
-        Human humanFirst = new Human("Иванов","Иван","Иванович", 15, Gender.MALE);
+        Student humanFirst = new Student("Иванов","Иван","Иванович", 15, Gender.MALE,"university","faculty","specialty");
 
         assertEquals(16,LambdaRunner.runUnaryOperator(LambdaDemo.makeOneYearOlder,humanFirst).getAge());
     }
@@ -97,7 +104,7 @@ public class LambdaDemoTest {
     @Test
     public void testCheckIfAllYoungerThan() {
         Human[] humans = new Human[3];
-        humans[0] = new Human("Иванов","Иван","Иванович", 15, Gender.MALE);
+        humans[0] = new Student("Иванов","Иван","Иванович", 15, Gender.MALE,"university","faculty","specialty");
         humans[1] = new Human("Смирнова", "Алина", "Михайловна", 20, Gender.FEMALE);
         humans[2] = new Human("Виктор", "Пелевин", "Олегович", 30, Gender.MALE);
         assertTrue(LambdaRunner.runBiPredicate(LambdaDemo.checkIfAllYoungerThan,40,humans));
@@ -107,6 +114,14 @@ public class LambdaDemoTest {
         Human[] humans = new Human[2];
         humans[0] = new Human("Иванов","Иван","Иванович", 15, Gender.MALE);
         humans[1] = new Human("Смирнова", "Алина", "Михайловна", 20, Gender.FEMALE);
+        assertFalse(LambdaRunner.runBiPredicate(LambdaDemo.checkIfAllYoungerThan,40,humans));
+    }
+    @Test
+    public void testCheckIfAllYoungerThan3() {
+        Human[] humans = new Human[3];
+        humans[0] = new Student("Иванов","Иван","Иванович", 15, Gender.MALE,"university","faculty","specialty");
+        humans[1] = new Human("Смирнова", "Алина", "Михайловна", 20, Gender.FEMALE);
+        humans[2] = new Human("Виктор", "Пелевин", "Олегович", 80, Gender.MALE);
         assertFalse(LambdaRunner.runBiPredicate(LambdaDemo.checkIfAllYoungerThan,40,humans));
     }
 }
